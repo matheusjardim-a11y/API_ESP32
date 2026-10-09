@@ -3,7 +3,7 @@ import time
 
 import serial
 
-PORTA = "COM8"
+PORTA = "COM5"
 BAUD = 115200  # tem que ser igual ao Serial.begin(115200) do ESP32
 
 
