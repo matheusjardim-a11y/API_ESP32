@@ -3,24 +3,39 @@ from pprint import pprint
 
 API_link = ""
 
-params = {
-    
-}
+def buscar_dados():
 
-response = requests.get(API_link, params=params)
+    try:
+        response = requests.get(API_link, timeout=5)
+        response.raise_for_status()
 
-code = response.status_code
+        dados = response.json()
 
-if code == 200:
-    dados = response.json()
-    print("Busca concluida.")
-    
-elif code >= 400:
-    response_erro = response.json()
-    codigo = response_erro['code']
-    mensagem = response_erro['message']
+        print("Dados recebidos com sucesso")
+        pprint(dados)
 
-    print(f"Código do erro: {codigo} ")
-    print(f"Motivo do erro: {mensagem}")
-else:
-    print("Deu preguiça de procurar, mas acho que o que você quer tá em outro lugar ;)")
+        temperatura = dados.get("temperatura")
+        umidade =  dados.get("umidade")
+
+        if temperatura is not None:
+            print(f"A temperatura é: {temperatura}°C")
+
+        if umidade is not None:
+            print(f"A umidade é: {umidade}%")
+
+    except requests.exceptions.Timeout:
+        print("Erro: o ESP32 demorou para responder.")
+
+    except requests.exceptions.ConnectionError:
+        print("Erro: não foi possível conectar ao ESP32.")
+
+    except requests.exceptions.HTTPError as erro:
+        print(f"Erro HTTP: {erro}")
+
+    except requests.exceptions.RequestException as erro:
+        print(f"Erro na requisição: {erro}")
+
+    except ValueError:
+        print("Erro: a resposta não contém um JSON válido.")
+
+
