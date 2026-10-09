@@ -14,11 +14,9 @@ code = response.status_code
 if code == 200:
     dados = response.json()
     print("Busca concluida.")
-    temperatura = dados["current"]["temp_c"]
     
 elif code >= 400:
     response_erro = response.json()
-    
     codigo = response_erro['code']
     mensagem = response_erro['message']
 
