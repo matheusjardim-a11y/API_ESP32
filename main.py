@@ -1,7 +1,7 @@
 import requests
 from pprint import pprint
 
-API_link = ""
+API_link = "http://10.161.161.220/api/dados"
 
 def buscar_dados():
 
@@ -38,4 +38,4 @@ def buscar_dados():
     except ValueError:
         print("Erro: a resposta não contém um JSON válido.")
 
-
+buscar_dados()
